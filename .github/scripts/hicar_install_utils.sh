@@ -94,8 +94,8 @@ function install_petsc {
     wget --no-check-certificate -q https://web.cels.anl.gov/projects/petsc/download/release-snapshots/petsc-3.21.2.tar.gz
     tar -xzf petsc-3.21.2.tar.gz
     cd petsc-3.21.2/
-    ./configure --prefix=$INSTALLDIR #&> config.log
-    make -j 4
+    ./configure --prefix=${INSTALLDIR} --with-debugging=no COPTFLAGS='-O3' CXXOPTFLAGS='-O3' FOPTFLAGS='-O3'
+    make all
     make install
 }
 
@@ -139,17 +139,19 @@ function hicar_dependencies {
 }
 
 function hicar_install {
-    echo hicar_install
-    pwd
-    cd ${GITHUB_WORKSPACE}
-    mkdir build
-    cd build
-    export NETCDF_DIR=${INSTALLDIR}
-    export FFTW_DIR=/usr
-    export PETSC_DIR=/usr #${INSTALLDIR}
-    export PATH=${INSTALLDIR}/bin:$PATH
-    export LD_LIBRARY_PATH=${INSTALLDIR}/lib:${LD_LIBRARY_PATH}
-    cmake ../ -DFSM=OFF
+    #echo hicar_install
+    #pwd
+    #cd ${GITHUB_WORKSPACE}
+    #mkdir build
+    #cd build
+    #export NETCDF_DIR=/opt/cray/pe/netcdf-hdf5parallel/4.9.0.9/
+    #export NETCDF_LIBRARIES=/opt/cray/pe/netcdf-hdf5parallel/4.9.0.9/gnu/12.3/lib/libnetcdff_parallel_gnu_123.so.7.0.0
+    #export FFTW_DIR=/opt/cray/pe/fftw/3.3.10.6/x86_rome/
+    #export PETSC_DIR=/users/msesselm/.local/lib/python3.11/site-packages/petsc
+    #export PATH=${INSTALLDIR}/bin:$PATH
+    #export LD_LIBRARY_PATH=${INSTALLDIR}/lib:${LD_LIBRARY_PATH}
+    #cmake ../ -DFSM=ON -DMODE=debug -DNETCDF_LIBRARIES=${NETCDF_LIBRARIES} -DNETCDF_DIR=${NETCDF_DIR} -DFFTW_DIR=${FFTW_DIR} -DPETSC_DIR=${PETSC_DIR}
+    cmake ../ -DCMAKE_Fortran_FLAGS="-ffree-line-length-none -ffixed-line-length-none -I/users/msesselm/installdir/include" -DMODE=debug -DFSM=ON -DPETSC_DIR=/users/msesselm/installdir -DFSM_DIR=/users/msesselm/HICAR/FSM2trans -DFSM2TRANS_LIB=/users/msesselm/HICAR/FSM2trans/lib/libFSM_interface.a
     make ${JN}
     make install
     
@@ -201,6 +203,8 @@ do
             install_netcdf_fortran;;
         execute_test_run)
             execute_test_run;;
+        install_petsc)
+            install_petsc;;
         *)
             echo "$func unknown"
     esac
