@@ -150,6 +150,8 @@ function hicar_install {
     export PATH=${INSTALLDIR}/bin:$PATH
     export LD_LIBRARY_PATH=${INSTALLDIR}/lib:${LD_LIBRARY_PATH}
     cmake ../ -DFSM=OFF
+    # Use the following cmake command to compile on eiger. Check the directories before compiling.
+    #cmake ../ -DCMAKE_Fortran_FLAGS="-ffree-line-length-none -ffixed-line-length-none -I/users/msesselm/installdir/include" -DMODE=debug -DFSM=ON -DPETSC_DIR=/users/msesselm/installdir -DFSM_DIR=/users/msesselm/HICAR/FSM2trans -DFSM2TRANS_LIB=/users/msesselm/HICAR/FSM2trans/lib/libFSM_interface.a
     make ${JN}
     make install
     
