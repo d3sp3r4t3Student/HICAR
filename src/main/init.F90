@@ -131,6 +131,10 @@ contains
             exec_team = kCOMPUTE_TEAM
             color = 0
         endif
+
+        write(*,*) "Control output for distributed processes:"
+        write(*,*) "PE_RANK_GLOBAL+1: ",PE_RANK_GLOBAL+1
+        write(*,*) "exec_team: (0=compute; 1=IO) ",color
     
         CALL MPI_Comm_dup( MPI_COMM_WORLD, globalComm, ierr )
         ! Assign all images in the IO team to the IO_comms MPI communicator. Use image indexing within initial team to get indexing of global MPI ranks
