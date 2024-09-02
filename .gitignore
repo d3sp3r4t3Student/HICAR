@@ -24,3 +24,4 @@ bin/*
 *code-workspace
 FSM2trans/build/*
 FSM2trans/lib/*
+.github/scripts/petsc*
