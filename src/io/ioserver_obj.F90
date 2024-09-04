@@ -446,31 +446,34 @@ contains
     ! This subroutine frees all memory allocated for MPI windows and types
     subroutine cleanup_MPI_resources(this)
         class(ioserver_t), intent(inout) :: this
-        integer :: i, ierr
+        integer :: i, ierr, ierr2
 
         ! Free MPI windows
         if (MPI_Win_null /= this%write_win_3d) then
-            call MPI_Win_Free(this%write_win_3d, ierr)
+            call MPI_Win_fence(MPI_MODE_NOSUCCEED, this%write_win_3d, ierr)
+            call MPI_Win_Free(this%write_win_3d, ierr2)
             if (ierr /= MPI_SUCCESS) then
-                write(*,*) "Error freeing write_win_3d", ierr
+                write(*,*) "Error freeing write_win_3d", ierr, ierr2
             endif
         else 
             write(*,*) "write_win_3d is null"
         endif
     
         if (MPI_Win_null /= this%write_win_2d) then
-            call MPI_Win_Free(this%write_win_2d, ierr)
+            call MPI_Win_fence(MPI_MODE_NOSUCCEED, this%write_win_2d, ierr)
+            call MPI_Win_Free(this%write_win_2d, ierr2)
             if (ierr /= MPI_SUCCESS) then
-                write(*,*) "Error freeing write_win_2d", ierr
+                write(*,*) "Error freeing write_win_2d", ierr, ierr2
             endif
         else
             write(*,*) "write_win_2d is null"
         endif
     
         if (MPI_Win_null /= this%read_win) then
-            call MPI_Win_Free(this%read_win, ierr)
+            call MPI_Win_fence(MPI_MODE_NOSUCCEED, this%read_win, ierr)
+            call MPI_Win_Free(this%read_win, ierr2)
             if (ierr /= MPI_SUCCESS) then
-                write(*,*) "Error freeing read_win", ierr
+                write(*,*) "Error freeing read_win", ierr, ierr2
             endif
         else
             write(*,*) "read_win is null"

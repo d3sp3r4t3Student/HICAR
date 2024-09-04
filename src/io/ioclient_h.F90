@@ -67,8 +67,9 @@ module ioclient_interface
       procedure, public  :: push
       procedure, public  :: receive
       procedure, public  :: receive_rst
-
       procedure, public  :: init
+      !procedure, public  :: close_files
+      procedure, public  :: cleanup_MPI_resources
   end type
 
   interface
@@ -120,6 +121,10 @@ module ioclient_interface
 
       module subroutine close_files(this)
           class(ioclient_t), intent(inout) :: this
+      end subroutine
+
+      module subroutine cleanup_MPI_resources(this)
+        class(ioclient_t), intent(inout) :: this
       end subroutine
       
   end interface
