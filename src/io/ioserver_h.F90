@@ -109,6 +109,8 @@ module ioserver_interface
       procedure, public  :: read_restart_file
       procedure, public  :: close_files
       procedure, public  :: init
+      procedure, public  :: cleanup_MPI_resources
+      
   end type
 
   interface
@@ -150,6 +152,10 @@ module ioserver_interface
       end subroutine
 
       module subroutine close_files(this)
+          class(ioserver_t), intent(inout) :: this
+      end subroutine
+
+      module subroutine cleanup_MPI_resources(this)
           class(ioserver_t), intent(inout) :: this
       end subroutine
       
