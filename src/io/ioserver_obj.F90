@@ -447,27 +447,33 @@ contains
     subroutine cleanup_MPI_resources(this)
         class(ioserver_t), intent(inout) :: this
         integer :: i, ierr
-    
+
         ! Free MPI windows
         if (MPI_Win_null /= this%write_win_3d) then
             call MPI_Win_Free(this%write_win_3d, ierr)
             if (ierr /= MPI_SUCCESS) then
-                write(*,*) "Error freeing write_win_3d"
+                write(*,*) "Error freeing write_win_3d", ierr
             endif
+        else 
+            write(*,*) "write_win_3d is null"
         endif
     
         if (MPI_Win_null /= this%write_win_2d) then
             call MPI_Win_Free(this%write_win_2d, ierr)
             if (ierr /= MPI_SUCCESS) then
-                write(*,*) "Error freeing write_win_2d"
+                write(*,*) "Error freeing write_win_2d", ierr
             endif
+        else
+            write(*,*) "write_win_2d is null"
         endif
     
         if (MPI_Win_null /= this%read_win) then
             call MPI_Win_Free(this%read_win, ierr)
             if (ierr /= MPI_SUCCESS) then
-                write(*,*) "Error freeing read_win"
+                write(*,*) "Error freeing read_win", ierr
             endif
+        else
+            write(*,*) "read_win is null"
         endif
     
         ! Free MPI datatypes
@@ -475,43 +481,53 @@ contains
             if (MPI_DATATYPE_NULL /= this%get_types_3d(i)) then
                 call MPI_Type_free(this%get_types_3d(i), ierr)
                 if (ierr /= MPI_SUCCESS) then
-                    write(*,*) "Error freeing get_types_3d(", i, ")"
+                    write(*,*) "Error freeing get_types_3d(", i, ")", ierr
                 endif
+            else
+                write(*,*) "get_types_3d(", i, ") is null"
             endif
     
             if (MPI_DATATYPE_NULL /= this%get_types_2d(i)) then
                 call MPI_Type_free(this%get_types_2d(i), ierr)
                 if (ierr /= MPI_SUCCESS) then
-                    write(*,*) "Error freeing get_types_2d(", i, ")"
+                    write(*,*) "Error freeing get_types_2d(", i, ")", ierr
                 endif
+            else
+                write(*,*) "get_types_2d(", i, ") is null"
             endif
     
             if (MPI_DATATYPE_NULL /= this%put_types(i)) then
                 call MPI_Type_free(this%put_types(i), ierr)
                 if (ierr /= MPI_SUCCESS) then
-                    write(*,*) "Error freeing put_types(", i, ")"
+                    write(*,*) "Error freeing put_types(", i, ")", ierr
                 endif
             endif
     
             if (MPI_DATATYPE_NULL /= this%child_get_types_3d(i)) then
                 call MPI_Type_free(this%child_get_types_3d(i), ierr)
                 if (ierr /= MPI_SUCCESS) then
-                    write(*,*) "Error freeing child_get_types_3d(", i, ")"
+                    write(*,*) "Error freeing child_get_types_3d(", i, ")", ierr
                 endif
+            else
+                write(*,*) "child_get_types_3d(", i, ") is null"
             endif
     
             if (MPI_DATATYPE_NULL /= this%child_get_types_2d(i)) then
                 call MPI_Type_free(this%child_get_types_2d(i), ierr)
                 if (ierr /= MPI_SUCCESS) then
-                    write(*,*) "Error freeing child_get_types_2d(", i, ")"
+                    write(*,*) "Error freeing child_get_types_2d(", i, ")", ierr
                 endif
+            else
+                write(*,*) "child_get_types_2d(", i, ") is null"
             endif
     
             if (MPI_DATATYPE_NULL /= this%child_put_types(i)) then
                 call MPI_Type_free(this%child_put_types(i), ierr)
                 if (ierr /= MPI_SUCCESS) then
-                    write(*,*) "Error freeing child_put_types(", i, ")"
+                    write(*,*) "Error freeing child_put_types(", i, ")", ierr
                 endif
+            else
+                write(*,*) "child_put_types(", i, ") is null"
             endif
         end do
     
