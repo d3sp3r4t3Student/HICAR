@@ -300,8 +300,8 @@ program icar
     end select
     
     ! Clean up allocated MPI resources before finalizing MPI if not already freed
-    call ioserver%cleanup_MPI_resources
-    call ioclient%cleanup_MPI_resources
+    !call ioserver%cleanup_MPI_resources
+    !call ioclient%cleanup_MPI_resources
 
     CALL MPI_Finalize()
 contains
