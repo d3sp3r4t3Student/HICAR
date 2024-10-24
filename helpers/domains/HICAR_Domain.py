@@ -32,7 +32,7 @@ def wholeShebang(ds_in,ds_in_rad,res=50,terr_filter=10,TPI_thresh=100,valley_thr
 
     if (not('landmask' in ds_in.variables)): 
         ds_in['landmask'] = ds_in['landuse'].copy()
-        ds_in['landmask'].values = np.where(ds_in.landuse.values==16,2,1)
+        ds_in['landmask'].values = np.where(ds_in.landuse.values!=11)
 
     
     return ds_in
