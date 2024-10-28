@@ -65,8 +65,8 @@ def addHorayzonParms(ds_in,ds_in_rad):
     # -----------------------------------------------------------------------------
 
     # Load required DEM data (including outer boundary zone)
-    lon = ds_in_rad.lon.values.astype('float64')[0,:]
-    lat = np.flipud(ds_in_rad.lat.values.astype('float64'))[:,0]
+    lon = ds_in_rad.lon.values.astype('float64')#[0,:] necessary for some forcing data formats !!!CAVE!!! Also adjust ProjHelpers.py lines 17 & 18
+    lat = np.flipud(ds_in_rad.lat.values.astype('float64'))#[:,0] necessary for some forcing data formats !!!CAVE!!! Also adjust ProjHelpers.py lines 17 & 18
     elevation = np.flipud(ds_in_rad.topo.values.astype('float32'))
 
     # -> GeoTIFF can also be read with GDAL if available (-> faster)

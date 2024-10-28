@@ -14,8 +14,8 @@ import os
 
 def get_latlon_b(ds,lon_str,lat_str,lon_dim,lat_dim):
     
-    lon_raw = ds[lon_str][:,:]
-    lat_raw = ds[lat_str][:,:]
+    lon_raw = ds[lon_str]#[:,:] necessary for some data formats
+    lat_raw = ds[lat_str]#[:,:] necessary for some data formats
    # if (len(ds[lon_str].shape) == 3):
    #     lon_raw = ds[lon_str][0,:,:]
    #     lat_raw = ds[lat_str][0,:,:]
