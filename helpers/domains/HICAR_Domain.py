@@ -32,7 +32,7 @@ def wholeShebang(ds_in,ds_in_rad,res=50,terr_filter=10,TPI_thresh=100,valley_thr
 
     if (not('landmask' in ds_in.variables)): 
         ds_in['landmask'] = ds_in['landuse'].copy()
-        ds_in['landmask'].values = np.where(ds_in.landuse.values!=11)
+        ds_in['landmask'].values = ds_in.landuse.where(ds_in.landuse.values!=11)
 
     
     return ds_in
@@ -65,8 +65,8 @@ def addHorayzonParms(ds_in,ds_in_rad):
     # -----------------------------------------------------------------------------
 
     # Load required DEM data (including outer boundary zone)
-    lon = ds_in_rad.lon.values.astype('float64')#[0,:] necessary for some forcing data formats !!!CAVE!!! Also adjust ProjHelpers.py lines 17 & 18
-    lat = np.flipud(ds_in_rad.lat.values.astype('float64'))#[:,0] necessary for some forcing data formats !!!CAVE!!! Also adjust ProjHelpers.py lines 17 & 18
+    lon = ds_in_rad.x.values.astype('float64')#[0,:] 
+    lat = np.flipud(ds_in_rad.y.values.astype('float64'))#[0,:] 
     elevation = np.flipud(ds_in_rad.topo.values.astype('float32'))
 
     # -> GeoTIFF can also be read with GDAL if available (-> faster)

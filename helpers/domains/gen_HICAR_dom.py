@@ -8,17 +8,17 @@ import HICAR_Domain as hd
 #######################  User options, to be edited  ######################
 ###########################################################################
 
-#The resolution of the domain
-res = 1000
+#The horizontal resolution of the domain in meters
+res = 50
 
 # The target domain, including lat and lon variables named as "lat" and "lon", and
 # a DEM labeled as "topo". Optionally, landuse and landmask variables should be specified here.
-target_domain_fn = '/mnt/c/Users/sesselma/Code/Code_PhD/HICAR/domains/1000m_domains/Silvretta_1000m_coarse.nc'
+target_domain_fn = '/mnt/c/Users/sesselma/Code/Code_PhD/HICAR/domains/50m_domains/Silvretta_50m_coarse.nc'
 # A domain with extent ~20km beyond the borders of the above target domain. 
 # Only lat,lon, and topo are required variables.
-large_domain_fn = '/mnt/c/Users/sesselma/Code/Code_PhD/HICAR/domains/1000m_domains/Silvretta_1000m_coarse_big.nc'
+large_domain_fn = '/mnt/c/Users/sesselma/Code/Code_PhD/HICAR/domains/50m_domains/Silvretta_50m_coarse_big.nc'
 # Name of output file
-output_domain_fn = '/mnt/c/Users/sesselma/Code/Code_PhD/HICAR/domains/1000m_domains/Silvretta_1000m_final.nc'
+output_domain_fn = '/mnt/c/Users/sesselma/Code/Code_PhD/HICAR/domains/50m_domains/Silvretta_50m_final.nc'
 
 # These are used in the calculation of ridelines, and can be tuned if the user
 # is not satisfied with the deliniation of ridgelines in the output file

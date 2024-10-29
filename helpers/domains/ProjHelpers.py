@@ -14,8 +14,8 @@ import os
 
 def get_latlon_b(ds,lon_str,lat_str,lon_dim,lat_dim):
     
-    lon_raw = ds[lon_str]#[:,:] necessary for some data formats
-    lat_raw = ds[lat_str]#[:,:] necessary for some data formats
+    lon_raw = ds[lon_str][:,:]
+    lat_raw = ds[lat_str][:,:] 
    # if (len(ds[lon_str].shape) == 3):
    #     lon_raw = ds[lon_str][0,:,:]
    #     lat_raw = ds[lat_str][0,:,:]
@@ -41,8 +41,10 @@ def get_latlon_b(ds,lon_str,lat_str,lon_dim,lat_dim):
     diffSouthNorth=np.array(diffSouthNorth)                            # assign this to numpy array
     padding=diffSouthNorth[0,:].reshape(1,len(diffSouthNorth[0,:]))  # get the last column of the differences and reshape so it can be appended
     diffSouthNorthAll = np.append(padding,diffSouthNorth,axis=0)/2               # append last value to all_data
+    
     # dimensions now the same as ds
     lat_b_orig      = lat_raw-diffSouthNorthAll
+    
     # lat_b needs to be staggered - add to the first row to bound
     last_add     = lat_raw[0,:]+diffSouthNorthAll[0,:]
     last_add     = np.array(last_add)
@@ -296,12 +298,13 @@ prepGridsForRegridder(ds_in,to_ds,ds_in_crs,ds_in_xvar,ds_in_yvar,ds_in_xdim,\
 
     else:
         # at the moment, parallel doesn't seem to work, so just disable for all cases
-        parallel = False
+        # Update: parallel keyword does not exist anymore
+        # parallel = False
         regridder = xe.Regridder(ds_in_grid_with_bounds, ds_to_grid_with_bounds, \
-                             method=method,extrap_method=extrap,reuse_weights=reuse,parallel=parallel)
+                             method=method,extrap_method=extrap,reuse_weights=reuse) #,parallel=parallel)
         print('Finished with smooth regridder')
         disc_regridder = xe.Regridder(ds_in_grid_with_bounds, ds_to_grid_with_bounds, \
-                             method='nearest_s2d',extrap_method=extrap,reuse_weights=reuse,parallel=parallel)
+                             method='nearest_s2d',extrap_method=extrap,reuse_weights=reuse) #,parallel=parallel)
     print('Finished making regridders')
     
     ds_out = regridder(ds_in)
